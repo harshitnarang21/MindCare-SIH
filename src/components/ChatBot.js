@@ -1,8 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// [All your existing data objects stay exactly the same]
 const mentalHealthResponses = {
-  // ... your entire mentalHealthResponses object unchanged
+  // [All your existing response data - stays exactly the same]
+  greeting: {
+    patterns: ['hi', 'hello', 'hey', 'start', 'help', 'good morning', 'good evening', 'namaste'],
+    responses: [
+      "Hello! I'm MindCare AI, your mental health support companion. I'm here to listen and help you navigate through difficult times. How are you feeling today?",
+      "Hi there! Welcome to MindCare. I'm trained to provide mental health support and resources. What's on your mind right now?",
+      "Namaste! I'm here to provide a safe space for you to share your thoughts and feelings. How can I support you today?",
+      "Hello! I'm glad you're here. Taking the first step to seek support shows strength. What would you like to talk about?"
+    ]
+  },
+  // [... all other categories remain the same ...]
 };
 
 const crisisKeywords = ['suicide', 'kill myself', 'end it all', 'better off dead', 'no point living', 'self harm', 'hurt myself', 'want to die', 'ending my life', 'not worth living'];
@@ -28,11 +37,10 @@ const ChatBot = () => {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [conversationContext, setConversationContext] = useState([]);
-  // 🚀 NEW: Add this line
-  const [showQuickActions, setShowQuickActions] = useState(true);
+  const [showQuickActions, setShowQuickActions] = useState(true); // ← Added this
   const messagesEndRef = useRef(null);
 
-  // [All your existing functions stay exactly the same until handleSendMessage]
+  // [All your existing functions stay exactly the same...]
 
   const handleSendMessage = (messageText = input) => {
     if (!messageText.trim()) return;
@@ -48,21 +56,25 @@ const ChatBot = () => {
     setInput('');
     setIsTyping(true);
 
-    // 🚀 NEW: Auto-hide after first message
+    // Auto-hide quick actions after first user message
     if (messages.length === 1) {
       setShowQuickActions(false);
     }
 
-    // [Rest of your handleSendMessage function stays the same]
+    // [Rest of function stays the same...]
   };
 
-  // [All other functions stay exactly the same]
+  // ✅ FIXED: Added the missing handleQuickAction function
+  const handleQuickAction = (action) => {
+    handleSendMessage(action);
+  };
+
+  // [All other functions stay exactly the same...]
 
   return (
     <div className="chat-container">
-      {/* [All your existing JSX stays the same until quick-actions] */}
+      {/* [All existing JSX until quick-actions...] */}
 
-      {/* 🚀 MODIFIED: Conditional rendering with hide button */}
       {showQuickActions && (
         <div className="quick-actions">
           <div className="quick-actions-header">
@@ -90,7 +102,6 @@ const ChatBot = () => {
         </div>
       )}
 
-      {/* 🚀 NEW: Show button when hidden */}
       {!showQuickActions && (
         <div className="show-quick-actions">
           <button 
@@ -102,7 +113,7 @@ const ChatBot = () => {
         </div>
       )}
 
-      {/* [Rest of your JSX stays exactly the same] */}
+      {/* [Rest of your JSX stays exactly the same...] */}
     </div>
   );
 };
