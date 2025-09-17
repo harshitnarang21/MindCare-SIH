@@ -60,7 +60,6 @@ export const AuthProvider = ({ children }) => {
       if (data) {
         setProfile(data);
       } else {
-        // No profile exists, show profile form
         setShowProfileForm(true);
       }
     } catch (error) {
@@ -141,6 +140,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Debug log to verify functions exist
+  console.log('AuthContext functions:', {
+    signInWithGoogle: typeof signInWithGoogle,
+    signOut: typeof signOut,
+    login: typeof signInWithGoogle,
+    logout: typeof signOut
+  });
+
   const value = {
     user,
     profile,
@@ -148,7 +155,9 @@ export const AuthProvider = ({ children }) => {
     showProfileForm,
     setShowProfileForm,
     signInWithGoogle,
+    login: signInWithGoogle,     // ← Alias for compatibility
     signOut,
+    logout: signOut,             // ← Alias for compatibility  
     saveUserProfile,
     addStressEvent
   };
