@@ -717,3 +717,446 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+/* Academic Stress Predictor Styles */
+.stress-predictor-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: white;
+}
+
+.stress-predictor-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.stress-predictor-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.stress-dashboard {
+  display: grid;
+  gap: 25px;
+}
+
+.stress-alerts {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.stress-alert {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border-left: 5px solid;
+}
+
+.stress-alert-high {
+  background: rgba(255, 67, 67, 0.2);
+  border-left-color: #ff4343;
+}
+
+.stress-alert-medium {
+  background: rgba(255, 165, 0, 0.2);
+  border-left-color: #ffa500;
+}
+
+.alert-content strong {
+  display: block;
+  font-size: 1.1rem;
+}
+
+.days-countdown {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  margin-left: auto;
+}
+
+.calendar-section {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.calendar-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: start;
+}
+
+.stress-calendar {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.stress-calendar .react-calendar__tile {
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.stress-calendar .react-calendar__tile.stress-high {
+  background-color: #ff4343 !important;
+  color: white;
+}
+
+.stress-calendar .react-calendar__tile.stress-medium {
+  background-color: #ffa500 !important;
+  color: white;
+}
+
+.stress-calendar .react-calendar__tile.stress-low {
+  background-color: #4caf50 !important;
+  color: white;
+}
+
+.calendar-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
+
+.legend-color.stress-high {
+  background-color: #ff4343;
+}
+
+.legend-color.stress-medium {
+  background-color: #ffa500;
+}
+
+.legend-color.stress-low {
+  background-color: #4caf50;
+}
+
+.selected-date-info {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.date-stress-info {
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.date-stress-info.stress-high {
+  background: rgba(255, 67, 67, 0.2);
+  border: 1px solid #ff4343;
+}
+
+.date-stress-info.stress-medium {
+  background: rgba(255, 165, 0, 0.2);
+  border: 1px solid #ffa500;
+}
+
+.risk-badge {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.no-stress-info {
+  background: rgba(76, 175, 80, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #4caf50;
+  margin-top: 10px;
+}
+
+.intervention-panel {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.intervention-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.close-interventions {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.intervention-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.intervention-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.intervention-btn {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s ease;
+}
+
+.intervention-btn:hover {
+  transform: translateY(-2px);
+}
+
+.stress-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.stat-card.high-risk {
+  border: 2px solid #ff4343;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .calendar-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .intervention-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .stress-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Enhanced Stress Predictor Styles */
+.enhanced-stress-predictor {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: white;
+}
+
+.predictor-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.integration-controls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.google-classroom-btn, .add-event-btn, .study-plan-btn {
+  background: linear-gradient(45deg, #4285f4, #34a853);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+.google-classroom-btn:hover, .add-event-btn:hover, .study-plan-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.connected-status {
+  background: rgba(76, 175, 80, 0.8);
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
+.source-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  margin-left: 10px;
+}
+
+.alert-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.enhanced-calendar {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  color: black;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  color: black;
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.modal-content input, .modal-content select, .modal-content textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.time-inputs {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.time-inputs input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.modal-actions button[type="submit"] {
+  background: #667eea;
+  color: white;
+}
+
+.modal-actions button[type="button"] {
+  background: #ddd;
+  color: #333;
+}
+
+.enhanced-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.enhanced-stats .stat-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.event-details {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .integration-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .enhanced-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

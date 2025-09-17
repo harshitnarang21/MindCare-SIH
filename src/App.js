@@ -6,7 +6,7 @@ import Resources from './components/Resources';
 import BookingSystem from './components/BookingSystem';
 import PeerSupport from './components/PeerSupport';
 import AdminDashboard from './components/AdminDashboard';
-
+import StressPredictor from './components/StressPredictor'; // This will now use the enhanced version
 function App() {
   return (
     <Router>
@@ -39,6 +39,11 @@ function App() {
                 <span className="nav-icon">👥</span>
                 <span>Peer Support</span>
               </Link></li>
+              {/* ← ADDED THIS NEW NAVIGATION LINK */}
+              <li><Link to="/stress-predictor" className="nav-link">
+                <span className="nav-icon">📊</span>
+                <span>Stress Predictor</span>
+              </Link></li>
               <li><Link to="/admin" className="nav-link">
                 <span className="nav-icon">📊</span>
                 <span>Admin</span>
@@ -53,6 +58,8 @@ function App() {
             <Route path="/resources" element={<Resources />} />
             <Route path="/booking" element={<BookingSystem />} />
             <Route path="/peer-support" element={<PeerSupport />} />
+            {/* ← ADDED THIS NEW ROUTE */}
+            <Route path="/stress-predictor" element={<StressPredictor />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </main>
