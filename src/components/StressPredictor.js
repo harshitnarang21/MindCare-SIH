@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import DatePicker from 'react-datepicker';
+import { useGoogleLogin, googleLogout } from '@react-oauth/google';
 import 'react-calendar/dist/Calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { v4 as uuidv4 } from 'uuid';
@@ -52,34 +53,14 @@ const predictStressPeriods = (academicEvents, userEvents, studyPlan) => {
   return predictions.sort((a, b) => a.daysLeft - b.daysLeft);
 };
 
-// Google Classroom simulation (for demo purposes)
-const simulateGoogleClassroomData = () => [
-  { 
-    id: uuidv4(),
-    date: '2025-09-28', 
-    name: 'React.js Assignment Submission', 
-    type: 'assignment',
-    source: 'google-classroom',
-    course: 'Web Development',
-    description: 'Build a complete React application with routing'
-  },
-  { 
-    id: uuidv4(),
-    date: '2025-10-02', 
-    name: 'Database Management Quiz', 
-    type: 'exam',
-    source: 'google-classroom',
-    course: 'DBMS',
-    description: 'Online quiz covering SQL and normalization'
-  }
-];
-
 const EnhancedStressPredictor = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [stressPredictions, setStressPredictions] = useState([]);
   const [userEvents, setUserEvents] = useState([]);
   const [studyPlan, setStudyPlan] = useState([]);
   const [googleClassroomConnected, setGoogleClassroomConnected] = useState(false);
+  const [googleClassroomData, setGoogleClassroomData] = useState([]);
+  const [accessToken, setAccessToken] = useState(null);
   const [showEventModal, setShowEventModal] = useState(false);
   const [showStudyPlanModal, setShowStudyPlanModal] = useState(false);
   const [newEvent, setNewEvent] = useState({
@@ -117,21 +98,74 @@ const EnhancedStressPredictor = () => {
   ];
 
   useEffect(() => {
-    // Simulate Google Classroom connection
+    // Combine Google Classroom data with other events
     let classroomEvents = [];
     if (googleClassroomConnected) {
-      classroomEvents = simulateGoogleClassroomData();
+      classroomEvents = googleClassroomData.map(course => ({
+        id: course.id || uuidv4(),
+        name: course.name || 'Google Classroom Course',
+        date: new Date(Date.now() + Math.random() * 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Random future date
+        type: 'course',
+        source: 'google-classroom-real'
+      }));
     }
     
     const predictions = predictStressPeriods(sampleAcademicEvents, [...userEvents, ...classroomEvents], studyPlan);
     setStressPredictions(predictions);
-  }, [userEvents, studyPlan, googleClassroomConnected]);
+  }, [userEvents, studyPlan, googleClassroomConnected, googleClassroomData]);
 
-  // Connect to Google Classroom (simulation)
-  const handleGoogleClassroomConnect = () => {
-    setGoogleClassroomConnected(true);
-    // In real implementation, this would handle OAuth flow
-    alert('✅ Successfully connected to Google Classroom!\n📚 Importing your assignments and coursework...');
+  // Real Google OAuth login
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      console.log('Google OAuth Success:', response);
+      setAccessToken(response.access_token);
+      
+      try {
+        // Fetch real Google Classroom courses
+        const coursesResponse = await fetch(
+          'https://classroom.googleapis.com/v1/courses',
+          {
+            headers: {
+              'Authorization': `Bearer ${response.access_token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        
+        if (coursesResponse.ok) {
+          const coursesData = await coursesResponse.json();
+          console.log('Google Classroom Courses:', coursesData);
+          
+          setGoogleClassroomData(coursesData.courses || []);
+          setGoogleClassroomConnected(true);
+          
+          alert(`✅ Successfully connected to Google Classroom!\n📚 Found ${coursesData.courses?.length || 0} courses`);
+          
+        } else {
+          console.error('Failed to fetch courses:', coursesResponse.statusText);
+          setGoogleClassroomConnected(true); // Still mark as connected for OAuth success
+          alert('✅ Google OAuth successful!\n⚠️ Classroom API access needs permissions setup.');
+        }
+      } catch (error) {
+        console.error('Google Classroom API Error:', error);
+        setGoogleClassroomConnected(true); // Still mark as connected for OAuth success
+        alert('✅ Google OAuth successful!\n⚠️ Classroom API access needs permissions setup.');
+      }
+    },
+    onError: (error) => {
+      console.error('Google OAuth Error:', error);
+      alert('❌ Google Classroom connection failed. Please try again.');
+    },
+    scope: 'https://www.googleapis.com/auth/classroom.courses.readonly',
+  });
+
+  // Logout function
+  const handleGoogleLogout = () => {
+    googleLogout();
+    setGoogleClassroomConnected(false);
+    setGoogleClassroomData([]);
+    setAccessToken(null);
+    alert('📤 Disconnected from Google Classroom');
   };
 
   // Add user event/reminder
@@ -200,20 +234,28 @@ const EnhancedStressPredictor = () => {
     <div className="enhanced-stress-predictor">
       <div className="predictor-header">
         <h2>🎓 Smart Academic Stress Predictor</h2>
-        <p>AI-powered with Google Classroom integration & Personal Study Planner</p>
+        <p>AI-powered with Real Google Classroom integration & Personal Study Planner</p>
         
         {/* Integration Controls */}
         <div className="integration-controls">
           {!googleClassroomConnected ? (
             <button 
               className="google-classroom-btn"
-              onClick={handleGoogleClassroomConnect}
+              onClick={() => googleLogin()}
             >
-              📚 Connect Google Classroom
+              📚 Connect Real Google Classroom
             </button>
           ) : (
-            <div className="connected-status">
-              ✅ Google Classroom Connected
+            <div className="connected-controls">
+              <div className="connected-status">
+                ✅ Google Classroom Connected ({googleClassroomData.length} courses)
+              </div>
+              <button 
+                className="logout-btn"
+                onClick={handleGoogleLogout}
+              >
+                📤 Disconnect
+              </button>
             </div>
           )}
           
@@ -410,3 +452,6 @@ const EnhancedStressPredictor = () => {
 };
 
 export default EnhancedStressPredictor;
+// Add this at the top of your StressPredictor component (temporary debugging)
+console.log('Google Client ID:', process.env.REACT_APP_GOOGLE_CLIENT_ID);
+console.log('All env vars:', process.env);
